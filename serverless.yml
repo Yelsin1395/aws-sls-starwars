@@ -1,0 +1,57 @@
+service: aws-sls-starwars
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: sa-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:sa-east-1:710531747423:table/PeopleTable
+
+functions:
+  getAllPeopleBySwapi:
+    handler: src/functions/people.getAllPeopleBySwapi
+    events:
+      - httpApi:
+          path: /swapi/all/peoples
+          method: get
+  getAllPeople:
+    handler: src/functions/people.getAllPeople
+    events:
+      - httpApi:
+          path: /all/peoples
+          method: get
+  createPeople:
+    handler: src/functions/people.createPeople
+    events:
+      - httpApi:
+          path: /create/people
+          method: post
+
+resources:
+  Resources:
+    TaskTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PeopleTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+plugins:
+  - serverless-plugin-typescript
