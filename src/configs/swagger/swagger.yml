@@ -1,0 +1,43 @@
+swagger: 2
+info:
+  title: 'SERVERLES AWS DYNAMONDB'
+  version: '1.0.0'
+  description: 'API ::Jesús Yelsin Broly:: App'
+  contact:
+    email: 'jesusyelsinbroly@gmail.com'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: 'People'
+    description: 'Api about star wars characters'
+schemes:
+  - 'https'
+paths:
+  /swapi/all/peoples:
+    get:
+      tags:
+        - 'People'
+      summary: 'Get all peoples of star wars from swapi'
+      description: 'This endpoint get all peoples'
+      produces:
+        - 'application/json'
+definitions:
+  People:
+    type: 'object'
+    properties:
+      name:
+        type: 'string'
+        required: true
+      height:
+        type: 'string'
+        required: true
+      mass:
+        type: 'string'
+        required: true
+      hair_color:
+        type: 'string'
+        required: true
+      skin_color:
+        type: 'string'
+        required: true
